@@ -8,7 +8,9 @@ public class App : AppObserver
 
     public bool ConfirmExit()
     {
-        return true;
+        Console.WriteLine("Do you really want to quit?");
+        string? input = Console.ReadLine();
+        return input == null || input.ToLower() == "y" || input.ToLower() == "yes";
     }
 
     public string AvailableOptions()
