@@ -14,20 +14,16 @@ namespace Application
             switch (option)
             {
                 case "1":
-                    (string SerialNumber, string MeterModelName, int Number, string FirmwareVersion, int SwitchState) = Observer.GetEndpointInfo();
-                    Service.InsertEndpoint(SerialNumber, MeterModelName, Number, FirmwareVersion, SwitchState);
-                    return "Endpoint Inserted Successfully.";
+                    return InsertEndpoint();
                 case "2":
-                    // TODO: implement option 2
+                    // TODO: edit endpoint
                     return "Option 2 selected";
                 case "3":
-                    // TODO: implement option 3
-                    return "Option 3 selected";
+                    return DeleteEndpoint();
                 case "4":
                     return DisplayAllEndpoints();
                 case "5":
-                    // TODO: implement option 5
-                    return "Option 5 selected";
+                    return FindEndpoint();
                 case "6":
                     if (Observer.ConfirmExit())
                     {
@@ -52,6 +48,26 @@ namespace Application
             }
         }
 
+        private string InsertEndpoint()
+        {
+            (string SerialNumber, string MeterModelName, int Number, string FirmwareVersion, int SwitchState) = Observer.GetEndpointInfo();
+            Service.InsertEndpoint(SerialNumber, MeterModelName, Number, FirmwareVersion, SwitchState);
+            return "Endpoint Inserted Successfully.";
+        }
+
+        private string DeleteEndpoint()
+        {
+            string serialNumber = Observer.GetSerialNumber();
+            if (Service.DeleteEndpoint(serialNumber))
+            {
+                return "Endpoint with serial number " + serialNumber + " deleted sucessfully.";
+            }
+            else
+            {
+                return "Endpoint with serial number " + serialNumber + " doesn't exists.";
+            }
+        }
+
         private string DisplayAllEndpoints()
         {
             List<EndpointModel> endpoints = Service.GetAllEndpoints();
@@ -69,6 +85,21 @@ namespace Application
                 Observer.DisplayEndpoint(item.EndpointSerialNumber, item.MeterModelId.ToString(),
                 item.MeterNumber.ToString(), item.MeterFirmwareVersion, item.SwitchState.ToString());
             }
+            return "";
+        }
+
+        private string FindEndpoint()
+        {
+            string serialNumber = Observer.GetSerialNumber();
+            EndpointModel item = Service.FindEndpoint(serialNumber);
+            if (item == null)
+            {
+                return "Endpoint with serial number " + serialNumber + " doesn't exists.";
+            }
+
+            Observer.DisplayEndpoint("Serial number", "Meter Model", "Meter Number", "Firmware Version", "Switch state");
+            Observer.DisplayEndpoint(item.EndpointSerialNumber, item.MeterModelId.ToString(),
+            item.MeterNumber.ToString(), item.MeterFirmwareVersion, item.SwitchState.ToString());
             return "";
         }
 
