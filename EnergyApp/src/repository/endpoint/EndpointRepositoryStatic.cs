@@ -24,6 +24,12 @@ public class EndpointRepositoryStatic : EndpointRepositoryInterface
     }
     public void InsertEndpoint(EndpointModel model)
     {
+        // Supposing that it's a primary key, database may throw exception implicitaly
+        if (model.EndpointSerialNumber == "")
+        {
+            throw new RepositoryException("Endpoint with empty serial number");
+        }
+
         EndpointModel? result = registredEndpoints.Find(endpoint => endpoint.EndpointSerialNumber == model.EndpointSerialNumber);
         if (result != null)
         {
