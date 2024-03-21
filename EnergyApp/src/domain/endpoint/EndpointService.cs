@@ -1,6 +1,3 @@
-
-using System.ComponentModel.Design;
-
 public class EndpointService
 {
     private EndpointRepositoryInterface Repository { get; set; }
@@ -36,9 +33,15 @@ public class EndpointService
         Repository.InsertEndpoint(new EndpointModel(SerialNumber, MeterModelId, Number, FirmwareVersion, SwitchState));
     }
 
-    // TODO: Implement EditEndpoint method
+    public void EditEndpoint(EndpointModel model)
+    {
+        Repository.UpdateEndpointBySerialNumber(model);
+    }
 
-    // TODO: Implement DeleteEndpoint method
+    public bool DeleteEndpoint(string serialNumber)
+    {
+        return Repository.RemoveEndpointBySerialNumber(serialNumber);
+    }
 
     public EndpointModel FindEndpoint(string SerialNumber)
     {
