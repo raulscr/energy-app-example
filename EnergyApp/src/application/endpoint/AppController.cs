@@ -7,7 +7,7 @@ namespace Application
 
         public bool Exit { get; private set; }
 
-        public string ProcessOption(string option)
+        private string HandleOption(string option)
         {
             switch (option)
             {
@@ -35,6 +35,18 @@ namespace Application
                     return "";
                 default:
                     return "Invalid Option";
+            }
+        }
+
+        public string ProcessOption(string option)
+        {
+            try
+            {
+                return HandleOption(option);
+            }
+            catch (System.Exception e)
+            {
+                return "Error: " + e.Data;
             }
         }
 
