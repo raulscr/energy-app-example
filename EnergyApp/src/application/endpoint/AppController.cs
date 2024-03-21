@@ -5,6 +5,8 @@ namespace Application
     {
         private AppObserver Observer;
 
+        private EndpointService Service;
+
         public bool Exit { get; private set; }
 
         private string HandleOption(string option)
@@ -12,8 +14,9 @@ namespace Application
             switch (option)
             {
                 case "1":
-                    // TODO: implement option 1
-                    return "Option 1 selected";
+                    (string SerialNumber, string MeterModelName, int Number, string FirmwareVersion, int SwitchState) = Observer.GetEndpointInfo();
+                    Service.InsertEndpoint(SerialNumber, MeterModelName, Number, FirmwareVersion, SwitchState);
+                    return "Endpoint Inserted Successfully.";
                 case "2":
                     // TODO: implement option 2
                     return "Option 2 selected";
@@ -21,8 +24,7 @@ namespace Application
                     // TODO: implement option 3
                     return "Option 3 selected";
                 case "4":
-                    // TODO: implement option 4
-                    return "Option 4 selected";
+                    return DisplayAllEndpoints();
                 case "5":
                     // TODO: implement option 5
                     return "Option 5 selected";
@@ -50,8 +52,30 @@ namespace Application
             }
         }
 
+        private string DisplayAllEndpoints()
+        {
+            List<EndpointModel> endpoints = Service.GetAllEndpoints();
+
+            if (!endpoints.Any())
+            {
+                return "No Endpoints found!";
+            }
+
+            // NOTE: concat everything here into a single string could end up using too much memory,
+            // so we let the "one who will display it" handle item-by-item as it want.
+            Observer.DisplayEndpoint("Serial number", "Meter Model", "Meter Number", "Firmware Version", "Switch state");
+            foreach (EndpointModel item in endpoints)
+            {
+                Observer.DisplayEndpoint(item.EndpointSerialNumber, item.MeterModelId.ToString(),
+                item.MeterNumber.ToString(), item.MeterFirmwareVersion, item.SwitchState.ToString());
+            }
+            return "";
+        }
+
         public AppController(AppObserver observer)
         {
+            // TODO: maybe build it all into a factory/façade
+            Service = new EndpointService(new EndpointRepositoryStatic());
             Observer = observer;
             Exit = false;
         }
