@@ -44,7 +44,7 @@ public class App : AppObserver
         }
 
 
-        return (info[0], info[1], Number, info[3], SwitchState);
+        return (info[0].Trim(), info[1].Trim(), Number, info[3].Trim(), SwitchState);
     }
 
     public string GetSerialNumber()
