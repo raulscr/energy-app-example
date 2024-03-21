@@ -16,8 +16,7 @@ namespace Application
                 case "1":
                     return InsertEndpoint();
                 case "2":
-                    // TODO: edit endpoint
-                    return "Option 2 selected";
+                    return EditEndpoint();
                 case "3":
                     return DeleteEndpoint();
                 case "4":
@@ -53,6 +52,12 @@ namespace Application
             (string SerialNumber, string MeterModelName, int Number, string FirmwareVersion, int SwitchState) = Observer.GetEndpointInfo();
             Service.InsertEndpoint(SerialNumber, MeterModelName, Number, FirmwareVersion, SwitchState);
             return "Endpoint Inserted Successfully.";
+        }
+        private string EditEndpoint()
+        {
+            (string SerialNumber, string MeterModelName, int Number, string FirmwareVersion, int SwitchState) = Observer.GetEndpointInfo();
+            Service.EditEndpoint(SerialNumber, MeterModelName, Number, FirmwareVersion, SwitchState);
+            return "Endpoint information updated Successfully.";
         }
 
         private string DeleteEndpoint()
