@@ -5,6 +5,7 @@ public class EndpointService
 {
     private EndpointRepositoryInterface Repository { get; set; }
 
+    // TODO: maybe the endpoint model should be created outside, and just the verifications handled here...
     public void InsertEndpoint(string SerialNumber, string MeterModelName, int Number, string FirmwareVersion, int SwitchState)
     {
         int MeterModelId;
@@ -39,9 +40,15 @@ public class EndpointService
 
     // TODO: Implement DeleteEndpoint method
 
-    // TODO: Implement FindEndpoint method
+    public EndpointModel FindEndpoint(string SerialNumber)
+    {
+        return Repository.FindEndpointBySerialNumber(SerialNumber);
+    }
 
-    // TODO: Implement GetAllEndpoints method
+    public List<EndpointModel> GetAllEndpoints()
+    {
+        return Repository.FindAllEndpoints();
+    }
 
     public EndpointService(EndpointRepositoryInterface repository)
     {
