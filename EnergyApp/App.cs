@@ -47,6 +47,17 @@ public class App : AppObserver
         return (info[0], info[1], Number, info[3], SwitchState);
     }
 
+    public string GetSerialNumber()
+    {
+        Console.WriteLine("Please input the Endpoint Serial Number");
+        string? input = Console.ReadLine();
+        if (input == null)
+        {
+            throw new Exception("Serial number can't be null");
+        }
+        return input;
+    }
+
     public void DisplayEndpoint(string SerialNumber, string MeterModel, string MeterNumber, string FirmwareVersion, string SwitchState)
     {
         Console.WriteLine(String.Format("|{0,20}|{1,20}|{2,20}|{3,20}|{4,20}|", SerialNumber, MeterModel, MeterNumber, FirmwareVersion, SwitchState));
