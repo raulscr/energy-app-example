@@ -46,7 +46,7 @@ namespace Application
             }
             catch (System.Exception e)
             {
-                return "Error: " + e.Data;
+                return "Error: " + e.Message;
             }
         }
 
